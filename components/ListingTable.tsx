@@ -13,6 +13,8 @@ const BSC_SCAN = "https://bscscan.com/address/";
 const ETH_SCAN = "https://etherscan.io/address/";
 const AVAX_SCAN = "https://snowtrace.io/address/";
 const POLY_SCAN = "https://polygonscan.com/address/";
+const FTM_SCAN = "https://ftmscan.com/address/";
+const ARBITRUM_SCAN = "https://arbiscan.io/address/";
 
 const DEX_DATA = {
   test_dex: {
@@ -38,6 +40,14 @@ const DEX_DATA = {
   quickswap: {
     scanner: POLY_SCAN,
     name: "Quickswap",
+  },
+  spiritswap: {
+    scanner: FTM_SCAN,
+    name: "SpiritSwap",
+  },
+  spookyswap: {
+    scanner: FTM_SCAN,
+    name: "SpookySwap",
   },
 };
 

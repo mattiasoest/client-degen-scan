@@ -11,10 +11,12 @@ import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 
 const networkToggles = [
-  "Binance Smart Chain",
-  "Polygon",
+  "Arbitrum",
   "Avalanche",
+  "Binance Smart Chain",
   "Ethereum",
+  "Fantom",
+  "Polygon",
 ];
 
 const TITLE = "DEGEN SCAN";
