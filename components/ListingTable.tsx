@@ -44,7 +44,7 @@ const DEX_DATA = {
 type DexId = keyof typeof DEX_DATA;
 
 type Column = {
-  id: "date" | "listing" | "dexId" | "pair";
+  id: "timestamp" | "listing" | "dexId" | "pair";
   label: string;
   minWidth?: number;
 };
@@ -65,7 +65,7 @@ const columns: readonly Column[] = [
 ];
 
 type Listing = {
-  date: string;
+  timestamp: number;
   dexId: DexId;
   token0: {
     contract: string;
@@ -120,9 +120,11 @@ export default function ListingTable() {
           <TableBody>
             {pairs.map((row: Listing) => {
               return (
-                <TableRow hover key={`${row.date}${row.pair}`}>
-                  <TableCell key={"date"}>{row.date}</TableCell>
-                  <TableCell key={"dexId"}>{row.dexId}</TableCell>
+                <TableRow hover key={`${row.timestamp}${row.pair}`}>
+                  <TableCell key={"date"}>{new Date(row.timestamp).toLocaleTimeString()}</TableCell>
+                  <TableCell key={"dexId"}>
+                    {DEX_DATA[row.dexId as DexId].name}
+                  </TableCell>
                   <TableCell key={"listing"}>
                     <Link
                       href={`${DEX_DATA[row.dexId as DexId].scanner}${
