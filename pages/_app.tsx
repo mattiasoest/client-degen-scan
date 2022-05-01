@@ -1,8 +1,13 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import { SocketProvider } from "../components/contexts/SocketProvider";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <SocketProvider>
+      <Component {...pageProps} />
+    </SocketProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;
