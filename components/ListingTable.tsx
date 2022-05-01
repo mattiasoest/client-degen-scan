@@ -155,8 +155,8 @@ export default function ListingTable() {
                     </Link>
                   </TableCell>
                   <TableCell key={"pair"}>
-                    <Link href={row.pair} target="_blank">
-                      Pair Contract
+                    <Link href={`${DEX_DATA[row.dexId as DexId].scanner}${row.pair}`} target="_blank">
+                      Contract
                     </Link>
                   </TableCell>
                 </TableRow>
