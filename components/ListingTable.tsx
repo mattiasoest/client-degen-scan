@@ -104,7 +104,7 @@ export default function ListingTable() {
       }}
     >
       <TableContainer sx={{ maxWidth: 920, maxHeight: 800 }}>
-        <Table stickyHeader aria-label="sticky table">
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
               {columns.map((column) => (
@@ -120,12 +120,7 @@ export default function ListingTable() {
           <TableBody>
             {pairs.map((row: Listing) => {
               return (
-                <TableRow
-                  hover
-                  role="checkbox"
-                  tabIndex={-1}
-                  key={`${row.date}${row.pair}`}
-                >
+                <TableRow hover key={`${row.date}${row.pair}`}>
                   <TableCell key={"date"}>{row.date}</TableCell>
                   <TableCell key={"dexId"}>{row.dexId}</TableCell>
                   <TableCell key={"listing"}>
@@ -161,5 +156,3 @@ export default function ListingTable() {
     </Paper>
   );
 }
-
-function getDexData(dexId: string) {}
