@@ -7,28 +7,26 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { SocketContext } from "./contexts/SocketProvider";
+import { Link } from "@mui/material";
 
 interface Column {
-  id: "date" | "token0" | "token1" | "dexId" | "pair";
+  id: "date" | "listing" | "dexId" | "pair";
   label: string;
   minWidth?: number;
-  align?: "right";
-  format?: (value: number) => string;
 }
 
 const columns: readonly Column[] = [
-  { id: "date", label: "Listing time", minWidth: 100 },
-  { id: "token0", label: "token 1", minWidth: 100 },
-  { id: "token1", label: "token 2", minWidth: 100 },
+  { id: "date", label: "Listing time", minWidth: 50 },
   {
     id: "dexId",
     label: "DEX",
-    minWidth: 100,
+    minWidth: 50,
   },
+  { id: "listing", label: "Listing", minWidth: 100 },
   {
     id: "pair",
     label: "Pair",
-    minWidth: 120,
+    minWidth: 50,
   },
 ];
 
@@ -51,9 +49,7 @@ export default function ListingTable() {
   const socket = useContext(SocketContext);
 
   useEffect(() => {
-    console.log("== ListingTable effect");
     if (!socket) {
-      console.log("returned");
       return;
     }
 
@@ -73,7 +69,6 @@ export default function ListingTable() {
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
                   {column.label}
@@ -82,17 +77,30 @@ export default function ListingTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {pairs.map((row: Listing, index) => {
+            {pairs.map((row: Listing) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    return (
-                      <TableCell key={column.id}>
-                        {JSON.stringify(value)}
-                      </TableCell>
-                    );
-                  })}
+                <TableRow
+                  hover
+                  role="checkbox"
+                  tabIndex={-1}
+                  key={`${row.date}${row.pair}`}
+                >
+                  <TableCell key={"date"}>{row.date}</TableCell>
+                  <TableCell key={"dexId"}>{row.dexId}</TableCell>
+                  <TableCell key={"listing"}>
+                    <Link href={row.token0.contract} target="_blank">
+                      {row.token0.name}
+                    </Link>
+                    &nbsp;x&nbsp;
+                    <Link href={row.token1.contract} target="_blank">
+                      {row.token1.name}
+                    </Link>
+                  </TableCell>
+                  <TableCell key={"pair"}>
+                    <Link href={row.pair} target="_blank">
+                      Pair Contract
+                    </Link>
+                  </TableCell>
                 </TableRow>
               );
             })}
