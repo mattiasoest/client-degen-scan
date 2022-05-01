@@ -9,8 +9,8 @@ import TableRow from "@mui/material/TableRow";
 import { SocketContext } from "./contexts/SocketProvider";
 import { Link } from "@mui/material";
 
-const BSC_SCAN = "https://bscscan.com/address";
-const ETH_SCAN = "https://etherscan.io/address";
+const BSC_SCAN = "https://bscscan.com/address/";
+const ETH_SCAN = "https://etherscan.io/address/";
 const AVAX_SCAN = "https://snowtrace.io/address/";
 const POLY_SCAN = "https://polygonscan.com/address/";
 
@@ -44,7 +44,7 @@ const DEX_DATA = {
 type DexId = keyof typeof DEX_DATA;
 
 type Column = {
-  id: "timestamp" | "listing" | "dexId" | "pair";
+  id: "date" | "listing" | "dexId" | "pair";
   label: string;
   minWidth?: number;
 };
