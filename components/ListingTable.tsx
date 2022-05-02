@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import { SocketContext } from "./contexts/SocketProvider";
 import { NetworkContext } from "./contexts/NetworkProvider";
 import { Listing } from "../utils";
-import { ListingRow } from "./Listingrow";
+import { ListingRow } from "./ListingRow";
 
 type Column = {
   id: "date" | "listing" | "dexId" | "pair";
