@@ -6,23 +6,49 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
+import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 
-const networkToggles = [
-  "Arbitrum",
-  "Avalanche",
-  "Binance Smart Chain",
-  "Ethereum",
-  "Fantom",
-  "Polygon",
-];
+const networkToggles = {
+  arbitrum: "Arbitrum",
+  avax: "Avalanche",
+  bsc: "Binance Smart Chain",
+  eth: "Ethereum",
+  ftm: "Fantom",
+  poly: "Polygon",
+};
+
+type NetworkGroup = {
+  arbitrum: boolean;
+  avax: boolean;
+  bsc: boolean;
+  eth: boolean;
+  ftm: boolean;
+  poly: boolean;
+};
+
+type Network = keyof typeof networkToggles;
 
 const TITLE = "DEGEN SCAN";
 
+const initNetworkGroup = (value: boolean): NetworkGroup => {
+  return {
+    arbitrum: value,
+    avax: value,
+    bsc: value,
+    eth: value,
+    ftm: value,
+    poly: value,
+  };
+};
+
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+
+  const [networks, setNetworks] = useState<NetworkGroup>(
+    initNetworkGroup(true)
+  );
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -30,6 +56,27 @@ const ResponsiveAppBar = () => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleNetworkChange = (
+    _e: React.MouseEvent<HTMLElement>,
+    enabled: Network[]
+  ) => {
+    const updated = initNetworkGroup(false);
+    enabled.forEach((net) => {
+      updated[net] = true;
+    });
+
+    setNetworks(updated);
+  };
+
+  const handleNetworkMenuClick = (
+    _e: React.MouseEvent<HTMLElement>,
+    value: Network
+  ) => {
+    const newGroup = { ...networks };
+    newGroup[value] = !networks[value];
+    setNetworks(newGroup);
   };
 
   return (
@@ -74,9 +121,17 @@ const ResponsiveAppBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {networkToggles.map((network) => (
-                <MenuItem key={network} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{network}</Typography>
+              {Object.keys(networkToggles).map((network) => (
+                <MenuItem
+                  key={network}
+                  selected={networks[network as Network]}
+                  onClick={(event) =>
+                    handleNetworkMenuClick(event, network as Network)
+                  }
+                >
+                  <Typography textAlign="center">
+                    {networkToggles[network as Network]}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -90,15 +145,22 @@ const ResponsiveAppBar = () => {
             {TITLE}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {networkToggles.map((network) => (
-              <Button
-                key={network}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {network}
-              </Button>
-            ))}
+            <ToggleButtonGroup
+              color="primary"
+              value={Object.keys(networks).filter(
+                (net) => networks[net as Network]
+              )}
+              onChange={handleNetworkChange}
+            >
+              {Object.keys(networkToggles).map((network) => (
+                <ToggleButton
+                  value={network}
+                  sx={{ my: 2, display: "block" }}
+                >
+                  {networkToggles[network as Network]}
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
           </Box>
         </Toolbar>
       </Container>
