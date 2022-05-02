@@ -87,6 +87,7 @@ const ResponsiveAppBar = () => {
             variant="h6"
             noWrap
             component="div"
+            color="#949494"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
             {TITLE}
@@ -138,6 +139,7 @@ const ResponsiveAppBar = () => {
           </Box>
           <Typography
             variant="h6"
+            color="#949494"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
@@ -146,18 +148,21 @@ const ResponsiveAppBar = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <ToggleButtonGroup
-              color="primary"
               value={Object.keys(networks).filter(
                 (net) => networks[net as Network]
               )}
               onChange={handleNetworkChange}
             >
               {Object.keys(networkToggles).map((network) => (
-                <ToggleButton
-                  value={network}
-                  sx={{ my: 2, display: "block" }}
-                >
-                  {networkToggles[network as Network]}
+                <ToggleButton value={network} sx={{ my: 2, display: "block" }}>
+                  <Typography
+                    noWrap
+                    textAlign="center"
+                    variant="subtitle2"
+                    color="primary"
+                  >
+                    {networkToggles[network as Network]}
+                  </Typography>
                 </ToggleButton>
               ))}
             </ToggleButtonGroup>
