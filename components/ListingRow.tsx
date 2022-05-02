@@ -11,13 +11,13 @@ type Props = {
 export const ListingRow = ({ row }: Props) => {
   return (
     <TableRow hover>
-      <TableCell key={"date"}>
+      <TableCell key="date">
         {new Date(row.timestamp).toLocaleTimeString()}
       </TableCell>
-      <TableCell key={"dexId"}>
+      <TableCell key="dexId">
         {DEX_DATA[row.dexId as DexId].name} ({row.network.toUpperCase()})
       </TableCell>
-      <TableCell key={"listing"}>
+      <TableCell key="listing">
         <Link
           href={`${DEX_DATA[row.dexId as DexId].scanner}${row.token0.contract}`}
           target="_blank"
@@ -32,7 +32,7 @@ export const ListingRow = ({ row }: Props) => {
           {row.token1.name}
         </Link>
       </TableCell>
-      <TableCell key={"pair"}>
+      <TableCell key="pair">
         <Link
           href={`${DEX_DATA[row.dexId as DexId].scanner}${row.pair}`}
           target="_blank"
