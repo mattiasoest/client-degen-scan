@@ -9,6 +9,8 @@ import TableRow from "@mui/material/TableRow";
 import { SocketContext } from "./contexts/SocketProvider";
 import { Link } from "@mui/material";
 import { DexId, DEX_DATA } from "../constants";
+import { NetworkContext } from "./contexts/NetworkProvider";
+import { Network } from "../utils";
 
 type Column = {
   id: "date" | "listing" | "dexId" | "pair";
@@ -34,6 +36,7 @@ const columns: readonly Column[] = [
 type Listing = {
   timestamp: number;
   dexId: DexId;
+  network: Network;
   token0: {
     contract: string;
     name: string;
@@ -48,6 +51,8 @@ type Listing = {
 export default function ListingTable() {
   const [pairs, setPairs] = useState([] as Listing[]);
   const socket = useContext(SocketContext);
+
+  const networks = useContext(NetworkContext);
 
   useEffect(() => {
     if (!socket) {
@@ -85,47 +90,50 @@ export default function ListingTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {pairs.map((row: Listing) => {
-              return (
-                <TableRow hover key={`${row.timestamp}${row.pair}`}>
-                  <TableCell key={"date"}>
-                    {new Date(row.timestamp).toLocaleTimeString()}
-                  </TableCell>
-                  <TableCell key={"dexId"}>
-                    {DEX_DATA[row.dexId as DexId].name}
-                  </TableCell>
-                  <TableCell key={"listing"}>
-                    <Link
-                      href={`${DEX_DATA[row.dexId as DexId].scanner}${
-                        row.token0.contract
-                      }`}
-                      target="_blank"
-                    >
-                      {row.token0.name}
-                    </Link>
-                    &nbsp;x&nbsp;
-                    <Link
-                      href={`${DEX_DATA[row.dexId as DexId].scanner}${
-                        row.token1.contract
-                      }`}
-                      target="_blank"
-                    >
-                      {row.token1.name}
-                    </Link>
-                  </TableCell>
-                  <TableCell key={"pair"}>
-                    <Link
-                      href={`${DEX_DATA[row.dexId as DexId].scanner}${
-                        row.pair
-                      }`}
-                      target="_blank"
-                    >
-                      Contract
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            {pairs
+              .filter((row: Listing) => networks[row.network])
+              .map((row: Listing) => {
+                return (
+                  <TableRow hover key={`${row.timestamp}${row.pair}`}>
+                    <TableCell key={"date"}>
+                      {new Date(row.timestamp).toLocaleTimeString()}
+                    </TableCell>
+                    <TableCell key={"dexId"}>
+                      {DEX_DATA[row.dexId as DexId].name} (
+                      {row.network.toUpperCase()})
+                    </TableCell>
+                    <TableCell key={"listing"}>
+                      <Link
+                        href={`${DEX_DATA[row.dexId as DexId].scanner}${
+                          row.token0.contract
+                        }`}
+                        target="_blank"
+                      >
+                        {row.token0.name}
+                      </Link>
+                      &nbsp;x&nbsp;
+                      <Link
+                        href={`${DEX_DATA[row.dexId as DexId].scanner}${
+                          row.token1.contract
+                        }`}
+                        target="_blank"
+                      >
+                        {row.token1.name}
+                      </Link>
+                    </TableCell>
+                    <TableCell key={"pair"}>
+                      <Link
+                        href={`${DEX_DATA[row.dexId as DexId].scanner}${
+                          row.pair
+                        }`}
+                        target="_blank"
+                      >
+                        Contract
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>

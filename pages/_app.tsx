@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { SocketProvider } from "../components/contexts/SocketProvider";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { NetworkProvider } from "../components/contexts/NetworkProvider";
 
 const darkTheme = createTheme({
   palette: {
@@ -20,7 +21,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={darkTheme}>
       <SocketProvider>
-        <Component {...pageProps} />
+        <NetworkProvider>
+          <Component {...pageProps} />
+        </NetworkProvider>
       </SocketProvider>
     </ThemeProvider>
   );
