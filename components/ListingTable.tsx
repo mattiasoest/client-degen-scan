@@ -8,50 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { SocketContext } from "./contexts/SocketProvider";
 import { Link } from "@mui/material";
-
-const BSC_SCAN = "https://bscscan.com/address/";
-const ETH_SCAN = "https://etherscan.io/address/";
-const AVAX_SCAN = "https://snowtrace.io/address/";
-const POLY_SCAN = "https://polygonscan.com/address/";
-const FTM_SCAN = "https://ftmscan.com/address/";
-const ARBITRUM_SCAN = "https://arbiscan.io/address/";
-
-const DEX_DATA = {
-  test_dex: {
-    scanner: ETH_SCAN,
-    name: "Test Dex",
-  },
-  pancake: {
-    scanner: BSC_SCAN,
-    name: "Pancake Swap",
-  },
-  apeswap: {
-    scanner: BSC_SCAN,
-    name: "ApeSwap",
-  },
-  trader_joe: {
-    scanner: AVAX_SCAN,
-    name: "Trader Joe",
-  },
-  uniswap: {
-    scanner: ETH_SCAN,
-    name: "Uniswap v2",
-  },
-  quickswap: {
-    scanner: POLY_SCAN,
-    name: "Quickswap",
-  },
-  spiritswap: {
-    scanner: FTM_SCAN,
-    name: "SpiritSwap",
-  },
-  spookyswap: {
-    scanner: FTM_SCAN,
-    name: "SpookySwap",
-  },
-};
-
-type DexId = keyof typeof DEX_DATA;
+import { DexId, DEX_DATA } from "../constants";
 
 type Column = {
   id: "date" | "listing" | "dexId" | "pair";
@@ -131,7 +88,9 @@ export default function ListingTable() {
             {pairs.map((row: Listing) => {
               return (
                 <TableRow hover key={`${row.timestamp}${row.pair}`}>
-                  <TableCell key={"date"}>{new Date(row.timestamp).toLocaleTimeString()}</TableCell>
+                  <TableCell key={"date"}>
+                    {new Date(row.timestamp).toLocaleTimeString()}
+                  </TableCell>
                   <TableCell key={"dexId"}>
                     {DEX_DATA[row.dexId as DexId].name}
                   </TableCell>
@@ -155,7 +114,12 @@ export default function ListingTable() {
                     </Link>
                   </TableCell>
                   <TableCell key={"pair"}>
-                    <Link href={`${DEX_DATA[row.dexId as DexId].scanner}${row.pair}`} target="_blank">
+                    <Link
+                      href={`${DEX_DATA[row.dexId as DexId].scanner}${
+                        row.pair
+                      }`}
+                      target="_blank"
+                    >
                       Contract
                     </Link>
                   </TableCell>
