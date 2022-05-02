@@ -1,3 +1,5 @@
+import { DexId } from "./constants";
+
 export type NetworkGroup = {
   arbitrum: boolean;
   avax: boolean;
@@ -18,4 +20,19 @@ export const initNetworkGroup = (value: boolean): NetworkGroup => {
     ftm: value,
     poly: value,
   };
+};
+
+export type Listing = {
+  timestamp: number;
+  dexId: DexId;
+  network: Network;
+  token0: {
+    contract: string;
+    name: string;
+  };
+  token1: {
+    contract: string;
+    name: string;
+  };
+  pair: string;
 };
