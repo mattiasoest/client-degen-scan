@@ -44,7 +44,6 @@ const ListingTable = () => {
     }
 
     socket.onmessage = (event) => {
-      console.log(event.data);
       const parsed = JSON.parse(event.data);
       setPairs((prevList) => [parsed, ...prevList]);
     };
