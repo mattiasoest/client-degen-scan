@@ -45,7 +45,13 @@ const ListingTable = () => {
 
     socket.onmessage = (event) => {
       const parsed = JSON.parse(event.data);
-      setPairs((prevList) => [parsed, ...prevList]);
+      // First message is the most recent listings as array
+      if (Array.isArray(parsed)) {
+        setPairs((prevList) => [...parsed, ...prevList]);
+      } else {
+        // Listing object
+        setPairs((prevList) => [parsed, ...prevList]);
+      }
     };
   }, [socket]);
 
