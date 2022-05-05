@@ -8,7 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
 import { useContext, useState } from "react";
-import { ToggleButtonGroup, ToggleButton } from "@mui/material";
+import { ToggleButtonGroup, ToggleButton, NoSsr } from "@mui/material";
 import {
   NetworkContext,
   NetworkUpdateContext,
@@ -30,6 +30,7 @@ const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const networks = useContext(NetworkContext);
+
   const setNetworks = useContext(NetworkUpdateContext);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -86,38 +87,40 @@ const ResponsiveAppBar = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {Object.keys(networkToggles).map((network) => (
-                <MenuItem
-                  key={network}
-                  selected={networks[network as Network]}
-                  onClick={(event) =>
-                    handleNetworkMenuClick(event, network as Network)
-                  }
-                >
-                  <Typography textAlign="center">
-                    {networkToggles[network as Network]}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            <NoSsr>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                {Object.keys(networkToggles).map((network) => (
+                  <MenuItem
+                    key={network}
+                    selected={networks[network as Network]}
+                    onClick={(event) =>
+                      handleNetworkMenuClick(event, network as Network)
+                    }
+                  >
+                    <Typography textAlign="center">
+                      {networkToggles[network as Network]}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </NoSsr>
           </Box>
           <Typography
             variant="h6"
@@ -129,29 +132,31 @@ const ResponsiveAppBar = () => {
             {TITLE}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <ToggleButtonGroup
-              value={Object.keys(networks!).filter(
-                (net) => networks![net as Network]
-              )}
-              onChange={handleNetworkChange}
-            >
-              {Object.keys(networkToggles).map((network) => (
-                <ToggleButton
-                  key={network}
-                  value={network}
-                  sx={{ my: 2, display: "block" }}
-                >
-                  <Typography
-                    noWrap
-                    textAlign="center"
-                    variant="subtitle2"
-                    color="primary"
+            <NoSsr>
+              <ToggleButtonGroup
+                value={Object.keys(networks).filter(
+                  (net) => networks[net as Network]
+                )}
+                onChange={handleNetworkChange}
+              >
+                {Object.keys(networkToggles).map((network) => (
+                  <ToggleButton
+                    key={network}
+                    value={network}
+                    sx={{ my: 2, display: "block" }}
                   >
-                    {networkToggles[network as Network]}
-                  </Typography>
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
+                    <Typography
+                      noWrap
+                      textAlign="center"
+                      variant="subtitle2"
+                      color="primary"
+                    >
+                      {networkToggles[network as Network]}
+                    </Typography>
+                  </ToggleButton>
+                ))}
+              </ToggleButtonGroup>
+            </NoSsr>
           </Box>
         </Toolbar>
       </Container>

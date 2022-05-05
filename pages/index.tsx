@@ -13,9 +13,7 @@ const Home: NextPage = () => {
       </Head>
       <ResponsiveAppBar />
       <ListingTable />
-      <footer>
-      {/* TODO ? */}
-      </footer>
+      <footer>{/* TODO ? */}</footer>
     </>
   );
 };

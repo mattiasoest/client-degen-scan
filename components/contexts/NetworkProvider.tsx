@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { initNetworkGroup, NetworkGroup } from "../../utils";
 
 export const NetworkContext = React.createContext<NetworkGroup>(
@@ -10,7 +11,7 @@ export const NetworkUpdateContext = React.createContext<
 >(null);
 
 export function NetworkProvider({ children }: React.PropsWithChildren<{}>) {
-  const [networks, setNetworks] = useState<NetworkGroup>(
+  const [networks, setNetworks] = useLocalStorage<NetworkGroup>('network',
     initNetworkGroup(true)
   );
 
