@@ -6,7 +6,7 @@ import { NetworkProvider } from "../components/contexts/NetworkProvider";
 
 const darkTheme = createTheme({
   palette: {
-    mode: "dark",
+    // mode: "dark",
 
     text: {
       primary: "#0ffc03",
