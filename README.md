@@ -1,6 +1,6 @@
 [degenscan.net](https://degenscan.net) 
 
-Frontend for token listin scanner
+Frontend for token listing scanner
 
 Networks supported;
 - Arbitrum
