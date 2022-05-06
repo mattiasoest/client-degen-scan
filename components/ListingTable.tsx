@@ -44,6 +44,11 @@ const ListingTable = () => {
     }
 
     socket.onmessage = (event) => {
+      const raw = event.data;
+      if (raw === "ping") {
+        socket.send("pong");
+        return;
+      }
       const parsed = JSON.parse(event.data);
       // First message is the most recent listings as array
       if (Array.isArray(parsed)) {

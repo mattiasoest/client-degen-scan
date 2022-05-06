@@ -9,13 +9,6 @@ export function SocketProvider({ children }: React.PropsWithChildren<{}>) {
       process.env.NEXT_PUBLIC_WS_SERVER as string
     );
     setSocket(newSocket);
-
-    newSocket.onopen = (event) => {
-      setInterval(() => {
-        newSocket.send("ping");
-      }, 20000);
-    };
-
     return () => newSocket.close();
   }, []);
 
