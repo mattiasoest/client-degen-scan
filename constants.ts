@@ -46,7 +46,7 @@ export const DEX_DATA = {
     scanner: ARBITRUM_SCAN,
     name: "SushiSwap ARBITRUM",
   },
-  sushiswap_polygon: {
+  sushiswap_poly: {
     scanner: POLY_SCAN,
     name: "SushiSwap POLYGON",
   },
