@@ -12,7 +12,7 @@ export const DEX_DATA = {
   },
   pancake: {
     scanner: BSC_SCAN,
-    name: "Pancake Swap",
+    name: "PancakeSwap",
   },
   apeswap: {
     scanner: BSC_SCAN,
@@ -40,23 +40,23 @@ export const DEX_DATA = {
   },
   sushiswap_eth: {
     scanner: ETH_SCAN,
-    name: "SushiSwap ETHEREUM",
+    name: "SushiSwap",
   },
   sushiswap_arb: {
     scanner: ARBITRUM_SCAN,
-    name: "SushiSwap ARBITRUM",
+    name: "SushiSwap",
   },
   sushiswap_poly: {
     scanner: POLY_SCAN,
-    name: "SushiSwap POLYGON",
+    name: "SushiSwap",
   },
   sushiswap_ftm: {
     scanner: FTM_SCAN,
-    name: "SushiSwap FANTOM",
+    name: "SushiSwap",
   },
   sushiswap_bsc: {
     scanner: BSC_SCAN,
-    name: "SushiSwap BSC",
+    name: "SushiSwap",
   },
 };
 
