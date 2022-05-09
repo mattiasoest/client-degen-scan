@@ -1,4 +1,6 @@
-[degenscan.net](https://degenscan.net) 
+backend code at: https://github.com/mattiasoest/degen-scan
+
+live app @ [degenscan.net](https://degenscan.net) 
 
 Frontend for token listing scanner
 
