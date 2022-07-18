@@ -16,12 +16,12 @@ import {
 import { initNetworkGroup, Network } from "../utils";
 
 const networkToggles = {
-  arbitrum: "Arbitrum",
-  avax: "Avalanche",
+  // arbitrum: "Arbitrum",
+  // avax: "Avalanche",
   bsc: "Binance Smart Chain",
   eth: "Ethereum",
-  ftm: "Fantom",
-  poly: "Polygon",
+  // ftm: "Fantom",
+  // poly: "Polygon",
 };
 
 const TITLE = "DEGEN SCAN";
