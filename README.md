@@ -11,3 +11,5 @@ Networks supported;
 - Ethereum
 - Fantom
 - Polygon
+
+FYI: Only the ethereum node active and connected currently
