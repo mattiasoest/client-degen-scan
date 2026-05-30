@@ -66,12 +66,14 @@ const ListingTable = () => {
     <Paper
       sx={{
         width: "100%",
+        flex: 1,
+        minHeight: 0,
         overflow: "hidden",
         display: "flex",
         justifyContent: "center",
       }}
     >
-      <TableContainer sx={{ maxWidth: 920, maxHeight: 800 }}>
+      <TableContainer sx={{ maxWidth: 920, width: "100%", height: "100%" }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>

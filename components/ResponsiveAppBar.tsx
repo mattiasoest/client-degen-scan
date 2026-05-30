@@ -11,6 +11,7 @@ import { useState } from "react";
 import { ToggleButtonGroup, ToggleButton, NoSsr } from "@mui/material";
 import { useNetwork } from "./contexts/NetworkProvider";
 import { initNetworkGroup, Network } from "../utils";
+import { APP_NAME } from "../config";
 
 const networkToggles = {
   // arbitrum: "Arbitrum",
@@ -20,8 +21,6 @@ const networkToggles = {
   // ftm: "Fantom",
   // poly: "Polygon",
 };
-
-const TITLE = "DEGEN SCAN";
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -68,7 +67,7 @@ const ResponsiveAppBar = () => {
             color="#949494"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            {TITLE}
+            {APP_NAME.toUpperCase()}
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -124,7 +123,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            {TITLE}
+            {APP_NAME.toUpperCase()}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <NoSsr>

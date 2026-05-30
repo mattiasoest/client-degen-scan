@@ -1,4 +1,10 @@
 html,
+body,
+#__next {
+  height: 100%;
+}
+
+html,
 body {
   background-color: #292929;
   padding: 0;
