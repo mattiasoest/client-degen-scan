@@ -3,6 +3,7 @@ import Head from "next/head";
 import Box from "@mui/material/Box";
 import ListingTable from "../components/ListingTable";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
+import MatrixRain from "../components/MatrixRain";
 import { APP_NAME } from "../config";
 
 const Home: NextPage = () => {
@@ -13,7 +14,16 @@ const Home: NextPage = () => {
         <meta name="description" content="Scan latest tokens" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      <MatrixRain />
+      <Box
+        sx={{
+          position: "relative",
+          zIndex: 1,
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh",
+        }}
+      >
         <ResponsiveAppBar />
         <ListingTable />
       </Box>
