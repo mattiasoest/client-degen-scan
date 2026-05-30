@@ -6,6 +6,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { useDevDummyListings } from "../dev/useDevDummyListings";
 import { useSocket } from "./contexts/SocketProvider";
 import { useNetwork } from "./contexts/NetworkProvider";
 import { Listing } from "../utils";
@@ -33,9 +34,11 @@ const columns: readonly Column[] = [
 ];
 
 const ListingTable = () => {
-  const [pairs, setPairs] = useState([] as Listing[]);
+  const devDummyListings = useDevDummyListings();
+  const [pairs, setPairs] = useState<Listing[]>([]);
   const socket = useSocket();
   const { networks } = useNetwork();
+  const rows = pairs.length > 0 ? pairs : devDummyListings;
 
   useEffect(() => {
     if (!socket) {
@@ -51,16 +54,22 @@ const ListingTable = () => {
       const parsed = JSON.parse(event.data);
       // First message is the most recent listings as array
       if (Array.isArray(parsed)) {
-        setPairs((prevList) => [...parsed, ...prevList]);
+        setPairs((prevList) => {
+          const base = prevList.length > 0 ? prevList : devDummyListings;
+          return [...parsed, ...base];
+        });
       } else {
         // Listing object
-        setPairs((prevList) => [parsed, ...prevList]);
+        setPairs((prevList) => {
+          const base = prevList.length > 0 ? prevList : devDummyListings;
+          return [parsed, ...base];
+        });
       }
     };
 
     socket.addEventListener("message", handleMessage);
     return () => socket.removeEventListener("message", handleMessage);
-  }, [socket]);
+  }, [socket, devDummyListings]);
 
   return (
     <Paper
@@ -88,7 +97,7 @@ const ListingTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {pairs
+            {rows
               .filter((row: Listing) => networks[row.network])
               .map((row: Listing) => {
                 return (
