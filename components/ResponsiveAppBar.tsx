@@ -7,12 +7,9 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { ToggleButtonGroup, ToggleButton, NoSsr } from "@mui/material";
-import {
-  NetworkContext,
-  NetworkUpdateContext,
-} from "./contexts/NetworkProvider";
+import { useNetwork } from "./contexts/NetworkProvider";
 import { initNetworkGroup, Network } from "../utils";
 
 const networkToggles = {
@@ -29,9 +26,7 @@ const TITLE = "DEGEN SCAN";
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
-  const networks = useContext(NetworkContext);
-
-  const setNetworks = useContext(NetworkUpdateContext);
+  const { networks, setNetworks } = useNetwork();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -50,7 +45,7 @@ const ResponsiveAppBar = () => {
       updated[net] = true;
     });
 
-    setNetworks!(updated);
+    setNetworks(updated);
   };
 
   const handleNetworkMenuClick = (
@@ -59,7 +54,7 @@ const ResponsiveAppBar = () => {
   ) => {
     const newGroup = { ...networks };
     newGroup[value] = !networks[value];
-    setNetworks!(newGroup);
+    setNetworks(newGroup);
   };
 
   return (

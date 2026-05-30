@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { initNetworkGroup, NetworkGroup } from "../../utils";
 
-export const NetworkContext = React.createContext<NetworkGroup>(
+const NetworkContext = React.createContext<NetworkGroup>(
   {} as NetworkGroup
 );
 
-export const NetworkUpdateContext = React.createContext<
+const NetworkUpdateContext = React.createContext<
   ((x: NetworkGroup) => void) | null
 >(null);
+
+export function useNetwork() {
+  const networks = useContext(NetworkContext);
+  const setNetworks = useContext(NetworkUpdateContext);
+  if (setNetworks === null) {
+    throw new Error("useNetwork must be used within a NetworkProvider");
+  }
+  return { networks, setNetworks };
+}
 
 export function NetworkProvider({ children }: React.PropsWithChildren<{}>) {
   const [networks, setNetworks] = useLocalStorage<NetworkGroup>('network',

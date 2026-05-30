@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -6,8 +6,8 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { SocketContext } from "./contexts/SocketProvider";
-import { NetworkContext } from "./contexts/NetworkProvider";
+import { useSocket } from "./contexts/SocketProvider";
+import { useNetwork } from "./contexts/NetworkProvider";
 import { Listing } from "../utils";
 import { ListingRow } from "./ListingRow";
 
@@ -34,9 +34,8 @@ const columns: readonly Column[] = [
 
 const ListingTable = () => {
   const [pairs, setPairs] = useState([] as Listing[]);
-  const socket = useContext(SocketContext);
-
-  const networks = useContext(NetworkContext);
+  const socket = useSocket();
+  const { networks } = useNetwork();
 
   useEffect(() => {
     if (!socket) {
