@@ -70,20 +70,8 @@ const MatrixRain = () => {
       const word =
         SPECIAL_WORDS[Math.floor(Math.random() * SPECIAL_WORDS.length)];
       const column = candidates[Math.floor(Math.random() * candidates.length)];
-      const columnIndex = columns.indexOf(column);
-      const elapsedSinceLastMs = Math.round(now - lastWordSpawn);
       startWordColumn(column, word);
       lastWordSpawn = now;
-
-      console.log("[MatrixRain] word spawn", {
-        word,
-        columnIndex,
-        x: columnIndex * fontSize,
-        startDrop: column.drop,
-        y: column.drop * fontSize,
-        intervalMs: WORD_SPAWN_INTERVAL_MS,
-        elapsedSinceLastMs,
-      });
     };
 
     const draw = () => {

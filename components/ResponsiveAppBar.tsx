@@ -122,17 +122,8 @@ const LiveBadge = () => {
   );
 };
 
-const ResponsiveAppBar = () => {
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+const NetworkToggleGroup = () => {
   const { networks, setNetworks } = useNetwork();
-
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
 
   const handleNetworkChange = (
     _e: React.MouseEvent<HTMLElement>,
@@ -145,7 +136,58 @@ const ResponsiveAppBar = () => {
     setNetworks(updated);
   };
 
-  const handleNetworkMenuClick = (
+  return (
+    <NoSsr>
+      <ToggleButtonGroup
+        size="small"
+        value={Object.keys(networks).filter(
+          (net) => networks[net as Network],
+        )}
+        onChange={handleNetworkChange}
+      >
+        {Object.keys(networkToggles).map((network) => (
+          <ToggleButton key={network} value={network}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                px: 0.5,
+              }}
+            >
+              <ChainIcon
+                network={network as Network}
+                sx={{ fontSize: 22 }}
+              />
+              <Typography
+                noWrap
+                variant="subtitle2"
+                sx={{ fontWeight: 700 }}
+              >
+                {networkToggles[network].short}
+              </Typography>
+            </Box>
+          </ToggleButton>
+        ))}
+      </ToggleButtonGroup>
+    </NoSsr>
+  );
+};
+
+const NetworkMenu = () => {
+  const theme = useTheme();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { networks, setNetworks } = useNetwork();
+
+  const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleNetworkClick = (
     _e: React.MouseEvent<HTMLElement>,
     value: Network,
   ) => {
@@ -155,6 +197,100 @@ const ResponsiveAppBar = () => {
   };
 
   return (
+    <>
+      <IconButton
+        size="large"
+        aria-label="networks"
+        aria-controls="network-menu"
+        aria-haspopup="true"
+        onClick={handleOpen}
+        color="primary"
+        sx={{
+          border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+          borderRadius: 1.25,
+          transition: "all 160ms ease",
+          "&:hover": {
+            backgroundColor: alpha(theme.palette.primary.main, 0.08),
+            borderColor: alpha(theme.palette.primary.main, 0.4),
+          },
+        }}
+      >
+        <MenuIcon />
+      </IconButton>
+      <NoSsr>
+        <Menu
+          id="network-menu"
+          anchorEl={anchorEl}
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+          transformOrigin={{ vertical: "top", horizontal: "left" }}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+          slotProps={{
+            paper: {
+              sx: {
+                mt: 0.75,
+                minWidth: 180,
+                py: 0.5,
+              },
+            },
+          }}
+        >
+          {Object.keys(networkToggles).map((network) => {
+            const selected = networks[network as Network];
+            return (
+              <MenuItem
+                key={network}
+                selected={selected}
+                onClick={(event) =>
+                  handleNetworkClick(event, network as Network)
+                }
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  mx: 0.75,
+                  my: 0.25,
+                  borderRadius: 1.25,
+                  color: selected ? "primary.main" : "text.secondary",
+                  border: `1px solid ${alpha(
+                    theme.palette.primary.main,
+                    selected ? 0.5 : 0.2,
+                  )}`,
+                  transition: "all 160ms ease",
+                  "&:hover": {
+                    backgroundColor: alpha(theme.palette.primary.main, 0.08),
+                    borderColor: alpha(theme.palette.primary.main, 0.4),
+                  },
+                  "&.Mui-selected": {
+                    backgroundColor: alpha(theme.palette.primary.main, 0.12),
+                    boxShadow: `inset 0 0 12px ${alpha(
+                      theme.palette.primary.main,
+                      0.18,
+                    )}`,
+                    "&:hover": {
+                      backgroundColor: alpha(theme.palette.primary.main, 0.18),
+                    },
+                  },
+                }}
+              >
+                <ChainIcon
+                  network={network as Network}
+                  sx={{ fontSize: 22 }}
+                />
+                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                  {networkToggles[network].short}
+                </Typography>
+              </MenuItem>
+            );
+          })}
+        </Menu>
+      </NoSsr>
+    </>
+  );
+};
+
+const ResponsiveAppBar = () => {
+  return (
     <AppBar position="static" elevation={0}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ gap: 2 }}>
@@ -162,53 +298,8 @@ const ResponsiveAppBar = () => {
             <Logo />
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="networks"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="primary"
-            >
-              <MenuIcon />
-            </IconButton>
-            <NoSsr>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-                keepMounted
-                transformOrigin={{ vertical: "top", horizontal: "left" }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{ display: { xs: "block", md: "none" } }}
-              >
-                {Object.keys(networkToggles).map((network) => (
-                  <MenuItem
-                    key={network}
-                    selected={networks[network as Network]}
-                    onClick={(event) =>
-                      handleNetworkMenuClick(event, network as Network)
-                    }
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1.25,
-                      }}
-                    >
-                      <ChainIcon
-                        network={network as Network}
-                        sx={{ fontSize: 20 }}
-                      />
-                      <Typography>{networkToggles[network].label}</Typography>
-                    </Box>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </NoSsr>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+            <NetworkMenu />
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -218,40 +309,7 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }} />
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <NoSsr>
-              <ToggleButtonGroup
-                size="small"
-                value={Object.keys(networks).filter(
-                  (net) => networks[net as Network],
-                )}
-                onChange={handleNetworkChange}
-              >
-                {Object.keys(networkToggles).map((network) => (
-                  <ToggleButton key={network} value={network}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        px: 0.5,
-                      }}
-                    >
-                      <ChainIcon
-                        network={network as Network}
-                        sx={{ fontSize: 22 }}
-                      />
-                      <Typography
-                        noWrap
-                        variant="subtitle2"
-                        sx={{ fontWeight: 700 }}
-                      >
-                        {networkToggles[network].short}
-                      </Typography>
-                    </Box>
-                  </ToggleButton>
-                ))}
-              </ToggleButtonGroup>
-            </NoSsr>
+            <NetworkToggleGroup />
           </Box>
 
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
