@@ -12,7 +12,6 @@ const Home: NextPage = () => {
       <Head>
         <title>{APP_NAME}</title>
         <meta name="description" content="Scan latest tokens" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <MatrixRain />
       <Box

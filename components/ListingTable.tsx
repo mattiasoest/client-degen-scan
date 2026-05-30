@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -35,6 +36,7 @@ const ListingTable = () => {
   const socket = useSocket();
   const { networks } = useNetwork();
   const rows = pairs.length > 0 ? pairs : devDummyListings;
+  const isListLoading = pairs.length === 0 && devDummyListings.length === 0;
 
   useEffect(() => {
     if (!socket) {
@@ -124,34 +126,57 @@ const ListingTable = () => {
             {"// LIVE LISTINGS"}
           </Typography>
           <Typography variant="subtitle2" sx={{ color: "text.secondary" }}>
-            {visibleRows.length} pairs
+            {isListLoading ? "..." : `${visibleRows.length} pairs`}
           </Typography>
         </Box>
 
-        <TableContainer sx={{ flex: 1, minHeight: 0 }}>
-          <Table stickyHeader size="small">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
+        {isListLoading ? (
+          <Box
+            sx={{
+              flex: 1,
+              minHeight: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              py: 6,
+            }}
+          >
+            <CircularProgress
+              size={36}
+              thickness={4}
+              sx={{
+                color: "primary.main",
+                filter: (t) =>
+                  `drop-shadow(0 0 10px ${alpha(t.palette.primary.main, 0.55)})`,
+              }}
+            />
+          </Box>
+        ) : (
+          <TableContainer sx={{ flex: 1, minHeight: 0 }}>
+            <Table stickyHeader size="small">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {visibleRows.map((row: Listing) => (
+                  <ListingRow
+                    row={row}
+                    key={`${row.timestamp}${row.pair}${row.token0.contract}${row.token1.contract}`}
+                  />
                 ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {visibleRows.map((row: Listing) => (
-                <ListingRow
-                  row={row}
-                  key={`${row.timestamp}${row.pair}${row.token0.contract}${row.token1.contract}`}
-                />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Paper>
     </Box>
   );
