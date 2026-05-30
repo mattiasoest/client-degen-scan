@@ -26,7 +26,7 @@ export function useLocalStorage<T>(
 
   useEffect(() => {
     window.localStorage.setItem(key, JSON.stringify(value));
-  }, [value]);
+  }, [key, value]);
 
   return [value, setValue] as [T, React.Dispatch<React.SetStateAction<T>>];
 }

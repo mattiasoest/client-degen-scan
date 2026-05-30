@@ -109,7 +109,7 @@ const ResponsiveAppBar = () => {
                       handleNetworkMenuClick(event, network as Network)
                     }
                   >
-                    <Typography textAlign="center">
+                    <Typography sx={{ textAlign: "center" }}>
                       {networkToggles[network as Network]}
                     </Typography>
                   </MenuItem>
@@ -142,9 +142,9 @@ const ResponsiveAppBar = () => {
                   >
                     <Typography
                       noWrap
-                      textAlign="center"
                       variant="subtitle2"
                       color="primary"
+                      sx={{ textAlign: "center" }}
                     >
                       {networkToggles[network as Network]}
                     </Typography>

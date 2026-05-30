@@ -42,7 +42,7 @@ const ListingTable = () => {
       return;
     }
 
-    socket.onmessage = (event) => {
+    const handleMessage = (event: MessageEvent) => {
       const raw = event.data;
       if (raw === "ping") {
         socket.send("pong");
@@ -57,6 +57,9 @@ const ListingTable = () => {
         setPairs((prevList) => [parsed, ...prevList]);
       }
     };
+
+    socket.addEventListener("message", handleMessage);
+    return () => socket.removeEventListener("message", handleMessage);
   }, [socket]);
 
   return (

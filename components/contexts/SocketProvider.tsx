@@ -13,6 +13,9 @@ export function SocketProvider({ children }: React.PropsWithChildren<{}>) {
     const newSocket = new WebSocket(
       process.env.NEXT_PUBLIC_WS_SERVER as string
     );
+    // The socket must be created client-side and re-created on remount, so
+    // storing it in state from the effect is intentional here.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSocket(newSocket);
     return () => newSocket.close();
   }, []);
