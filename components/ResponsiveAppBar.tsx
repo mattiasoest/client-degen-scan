@@ -23,67 +23,50 @@ const networkToggles: Record<string, { label: string; short: string }> = {
 const Logo = () => {
   const theme = useTheme();
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
+    <Box
+      sx={{
+        position: "relative",
+        display: "inline-flex",
+        alignItems: "center",
+      }}
+    >
       <Box
+        aria-hidden
         sx={{
-          width: 30,
-          height: 30,
-          display: "grid",
-          placeItems: "center",
-          borderRadius: "8px",
-          border: `1px solid ${alpha(theme.palette.primary.main, 0.5)}`,
+          position: "absolute",
+          inset: "-4px -8px",
+          borderRadius: 1,
+          background: (t) =>
+            `radial-gradient(ellipse 110% 70% at 50% 50%, ${alpha(
+              t.palette.primary.main,
+              0.34,
+            )} 0%, transparent 68%)`,
+          filter: "blur(10px)",
+          pointerEvents: "none",
+        }}
+      />
+      <Typography
+        variant="h6"
+        noWrap
+        component="div"
+        sx={{
+          position: "relative",
           color: "primary.main",
-          fontWeight: 700,
-          fontSize: 18,
-          boxShadow: `inset 0 0 14px ${alpha(
-            theme.palette.primary.main,
-            0.25,
-          )}, 0 0 12px ${alpha(theme.palette.primary.main, 0.25)}`,
           textShadow: `0 0 10px ${alpha(theme.palette.primary.main, 0.9)}`,
         }}
       >
-        {">"}
-      </Box>
-      <Box
-        sx={{
-          position: "relative",
-          display: "inline-flex",
-          alignItems: "center",
-        }}
-      >
+        {"$"}
+        {APP_NAME.toUpperCase()}
         <Box
-          aria-hidden
+          component="span"
           sx={{
-            position: "absolute",
-            inset: "-4px -8px",
-            borderRadius: 1,
-            background: (t) =>
-              `radial-gradient(ellipse 110% 70% at 50% 50%, ${alpha(
-                t.palette.primary.main,
-                0.34,
-              )} 0%, transparent 68%)`,
-            filter: "blur(10px)",
-            pointerEvents: "none",
+            ml: 0.5,
+            animation: "cursor-blink 1.1s steps(2, start) infinite",
           }}
-        />
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
-          sx={{ position: "relative", color: "primary.main" }}
         >
-          {APP_NAME.toUpperCase()}
-          <Box
-            component="span"
-            sx={{
-              ml: 0.5,
-              animation: "cursor-blink 1.1s steps(2, start) infinite",
-            }}
-          >
-            _
-          </Box>
-        </Typography>
-      </Box>
+          _
+        </Box>
+      </Typography>
     </Box>
   );
 };
@@ -206,12 +189,20 @@ const NetworkMenu = () => {
         onClick={handleOpen}
         color="primary"
         sx={{
-          border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
-          borderRadius: 1.25,
+          border: `1px solid ${alpha(theme.palette.primary.main, 0.5)}`,
+          borderRadius: "8px",
+          boxShadow: `inset 0 0 14px ${alpha(
+            theme.palette.primary.main,
+            0.25,
+          )}, 0 0 12px ${alpha(theme.palette.primary.main, 0.25)}`,
           transition: "all 160ms ease",
           "&:hover": {
             backgroundColor: alpha(theme.palette.primary.main, 0.08),
-            borderColor: alpha(theme.palette.primary.main, 0.4),
+            borderColor: alpha(theme.palette.primary.main, 0.5),
+            boxShadow: `inset 0 0 14px ${alpha(
+              theme.palette.primary.main,
+              0.35,
+            )}, 0 0 16px ${alpha(theme.palette.primary.main, 0.35)}`,
           },
         }}
       >
@@ -293,22 +284,39 @@ const ResponsiveAppBar = () => {
   return (
     <AppBar position="static" elevation={0}>
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ gap: 2 }}>
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+        <Toolbar disableGutters sx={{ gap: 2, py: { xs: 1.25, sm: 0.75 } }}>
+          <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             <Logo />
           </Box>
 
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          <Box
+            sx={{
+              flex: 1,
+              display: { xs: "flex", sm: "none" },
+              alignItems: "center",
+            }}
+          >
             <NetworkMenu />
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ display: { xs: "flex", sm: "none" } }}>
             <Logo />
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }} />
+          <Box
+            sx={{
+              flex: 1,
+              display: { xs: "flex", sm: "none" },
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
+            <LiveBadge />
+          </Box>
 
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }} />
+
+          <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             <NetworkToggleGroup />
           </Box>
 
