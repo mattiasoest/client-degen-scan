@@ -10,6 +10,7 @@ import { ChainIcon } from "./icons/ChainIcons";
 const NAME_CAP = 60;
 
 const CHAIN_LABEL: Record<Network, string> = {
+  avax: "Avalanche",
   bsc: "Binance Smart Chain",
   eth: "Ethereum",
 };

@@ -16,6 +16,7 @@ import { APP_NAME } from "../config";
 import { ChainIcon } from "./icons/ChainIcons";
 
 const networkToggles: Record<string, { label: string; short: string }> = {
+  avax: { label: "Avalanche", short: "AVAX" },
   bsc: { label: "Binance Smart Chain", short: "BSC" },
   eth: { label: "Ethereum", short: "ETH" },
 };

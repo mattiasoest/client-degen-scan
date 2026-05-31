@@ -32,6 +32,20 @@ export const DEV_DUMMY_LISTINGS: Listing[] = [
     pair: "0x16b9a82891338f9ba80e954d058195e8d2b3510",
   },
   {
+    timestamp: now - 450_000,
+    dexId: "trader_joe",
+    network: "avax",
+    token0: {
+      contract: "0x6e84a6216eA365d8541bbfc0945b466968E990E4",
+      name: "JoeToken",
+    },
+    token1: {
+      contract: "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+      name: "Wrapped AVAX",
+    },
+    pair: "0xa388067385Bd10920AbcE04DadaA43fC8D51a5d9",
+  },
+  {
     timestamp: now - 300_000,
     dexId: "sushiswap_eth",
     network: "eth",
